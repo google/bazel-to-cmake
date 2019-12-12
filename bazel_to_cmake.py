@@ -123,6 +123,9 @@ class BuildFileFunctions(object):
   def exports_files(self, files, **kwargs):
     pass
 
+  def package(self, **kwargs):
+    pass
+
   def proto_library(self, **kwargs):
     pass
 

@@ -274,5 +274,6 @@ with open("BUILD") as f:
   code = compile(f.read(), "BUILD", "exec")
   exec(code, GetDict(BuildFileFunctions(converter)))
 
-with open(sys.argv[1], "w") as f:
+output_file = sys.argv[1] if len(sys.argv) > 0 else "CMakeLists.txt"
+with open(output_file, "w") as f:
   f.write(converter.convert())

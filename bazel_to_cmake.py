@@ -258,7 +258,7 @@ def GetDict(obj):
   ret = {}
   for k in dir(obj):
     if not k.startswith("_"):
-      ret[k] = getattr(obj, k);
+      ret[k] = getattr(obj, k)
   return ret
 
 globs = GetDict(converter)

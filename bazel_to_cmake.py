@@ -123,6 +123,9 @@ class BuildFileFunctions(object):
   def exports_files(self, files, **kwargs):
     pass
 
+  def package(self, **kwargs):
+    pass
+
   def proto_library(self, **kwargs):
     pass
 
@@ -258,13 +261,19 @@ def GetDict(obj):
   ret = {}
   for k in dir(obj):
     if not k.startswith("_"):
-      ret[k] = getattr(obj, k);
+      ret[k] = getattr(obj, k)
   return ret
 
 globs = GetDict(converter)
 
-execfile("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
-execfile("BUILD", GetDict(BuildFileFunctions(converter)))
+def exec_file(filepath, globals_=None, locals_=None):
+    with open(filepath) as f:
+        code = compile(f.read(), filepath, "exec")
+        exec(code, globals_, locals_)
 
-with open(sys.argv[1], "w") as f:
+exec_file("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
+exec_file("BUILD", GetDict(BuildFileFunctions(converter)))
+
+output_file = sys.argv[1] if len(sys.argv) > 0 else "CMakeLists.txt"
+with open(output_file, "w") as f:
   f.write(converter.convert())

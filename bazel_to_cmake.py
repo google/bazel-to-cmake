@@ -266,13 +266,13 @@ def GetDict(obj):
 
 globs = GetDict(converter)
 
-with open("WORKSPACE") as f:
-  code = compile(f.read(), "WORKSPACE", "exec")
-  exec(code, GetDict(WorkspaceFileFunctions(converter)))
+def exec_file(filepath, globals_=None, locals_=None):
+    with open(filepath) as f:
+        code = compile(f.read(), filepath, "exec")
+        exec(code, globals_, locals_)
 
-with open("BUILD") as f:
-  code = compile(f.read(), "BUILD", "exec")
-  exec(code, GetDict(BuildFileFunctions(converter)))
+exec_file("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
+exec_file("BUILD", GetDict(BuildFileFunctions(converter)))
 
 output_file = sys.argv[1] if len(sys.argv) > 0 else "CMakeLists.txt"
 with open(output_file, "w") as f:

@@ -266,8 +266,13 @@ def GetDict(obj):
 
 globs = GetDict(converter)
 
-execfile("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
-execfile("BUILD", GetDict(BuildFileFunctions(converter)))
+with open("WORKSPACE") as f:
+  code = compile(f.read(), "WORKSPACE", "exec")
+  exec(code, GetDict(WorkspaceFileFunctions(converter)))
+
+with open("BUILD") as f:
+  code = compile(f.read(), "BUILD", "exec")
+  exec(code, GetDict(BuildFileFunctions(converter)))
 
 with open(sys.argv[1], "w") as f:
   f.write(converter.convert())

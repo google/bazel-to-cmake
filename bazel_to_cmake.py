@@ -263,8 +263,12 @@ def GetDict(obj):
 
 globs = GetDict(converter)
 
-execfile("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
-execfile("BUILD", GetDict(BuildFileFunctions(converter)))
+# execfile() not supported in Python 3; replaced by exec()
+# execfile("WORKSPACE", GetDict(WorkspaceFileFunctions(converter)))
+# execfile("BUILD", GetDict(BuildFileFunctions(converter)))
+
+exec(open("WORKSPACE", "rb").read(), GetDict(WorkspaceFileFunctions(converter)))
+exec(open("BUILD", "rb").read(), GetDict(BuildFileFunctions(converter)))
 
 with open(sys.argv[1], "w") as f:
   f.write(converter.convert())

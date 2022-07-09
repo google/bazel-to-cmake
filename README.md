@@ -10,7 +10,7 @@ This is not an official Google product.
 
 ## Project Status: Experimental
 
-This project is experimental, and is only being used by a few projects
+This project is experimental and is only being used by a few projects
 currently.  It is not part of the official Bazel ecosystem or roadmap.
 
 The tool is quite incomplete at the moment, but I am working on adding
@@ -26,7 +26,7 @@ From the root directory of a Bazel project (where your `BUILD` and
 
     $ path/to/bazel_to_cmake.py CMakeLists.txt
 
-You can check the generated `CMakeLists.txt` file into your repository
+You can check the generated `CMakeLists.txt` file in your repository
 if you wish.  If you take this approach you will probably want a test
 that ensures it stays up-to-date with your Bazel `BUILD` file.  You
 may even want to create a `cc_test()` in Bazel that runs the CMake
@@ -37,7 +37,7 @@ without the user having to fuss).
 
 ## Why convert Bazel to CMake?
 
-Bazel `BUILD` files are a nice way to write build systems.  `BUILD`
+Bazel `BUILD` files are a nice way to write and build systems.  `BUILD`
 files are high level, mostly declarative, and generally easy on the
 eyes.  `WORKSPACE` files are likewise a nice declarative way of
 describing your dependencies.  When you need imperative logic, you can
@@ -51,13 +51,13 @@ of its dependencies.  It also enforces access control, ensuring that
 your private rules and headers stay private.  Of major build systems,
 Bazel gives you the most tools for imposing structure on your
 build and enforcing this structure.  When I port build systems to
-Bazel, I often catch things that weren't quite right before, but
+Bazel, I often catch things that weren't quite right before but
 happened to work in a more permissive build system.  A correct
 build is easier to reproduce, parallelize, distribute across a
 cluster, and is just generally easier to reason about.
 
 These attributes make Bazel a great "source of truth" build system,
-in my opinion.  During development you can build with the most
+in my opinion.  During development, you can build with the most
 rigorous checking, and your build system can be written in a nice,
 readable language.
 
@@ -78,10 +78,10 @@ can conveniently build your code in idiomatic CMake ways.
 
 ## How the tool works
 
-This tool does not use Bazel implementation at all.  Instead it takes
+This tool does not use Bazel implementation at all.  Instead, it takes
 advantage of the fact that Bazel input files are a subset of Python by
 using Python to evaluate them.  This means that the translation is
-fast and has no dependencies except Python.  However it also means
+fast and has no dependencies except Python.  However, it also means
 that every kind of Bazel rule needs specific support in this tool.
 
 We aim to generate CMake output that is as idiomatic as possible.
@@ -90,5 +90,4 @@ have written manually, based on best practices for CMake.
 
 To translate idiomatically, we translate at a high level.  For
 example `cc_library()` translates directly to `add_library()` in
-CMake.  But we try to capture subtleties; for example a header-only
-library needs to have the "INTERFACE" attribute in CMake.
+CMake.  But we try to capture subtleties; for example, a header-only library needs to have the "INTERFACE" attribute in CMake.
